@@ -2,6 +2,7 @@ const express = require("express");
 const chalk = require("chalk");
 const dotenv = require("dotenv");
 const testRoute = require("./routes/test");
+const idnumberRoute = require("./routes/idnumber");
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.get("/api/v3/testapi", (req, res) => {
 app.use(express.json());
 
 app.use("/api/tests", testRoute);
+app.use("/api/idnumbers", idnumberRoute);
 
 app.listen(process.env.SERVER_PORT || port, () => {
     if(process.env.SERVER_PORT)
