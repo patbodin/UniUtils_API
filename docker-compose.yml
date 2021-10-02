@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  nodejs:
+  #  build:
+  #    context: .
+  #    dockerfile: Dockerfile
+    image: uniutil:1.0
+    container_name: uniutil
+    restart: always
+    env_file: .env
+    # environment:
+    #   - MONGO_USERNAME=$MONGO_USERNAME
+    #   - MONGO_PASSWORD=$MONGO_PASSWORD
+    #   - MONGO_HOSTNAME=db
+    #   - MONGO_PORT=$MONGO_PORT
+    #   - MONGO_DB=$MONGO_DB
+    ports:
+      - "5099:5000"
+    networks:
+      - host
+    command: node index.js
