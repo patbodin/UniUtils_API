@@ -18,5 +18,9 @@ services:
     ports:
       - "5099:5000"
     networks:
-      - host
+      - app-network
     command: node index.js
+
+networks:
+  app-network:
+    driver: host
