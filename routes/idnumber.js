@@ -30,4 +30,12 @@ route.get("/v1/:idnumber/idnumbergenerator", (req, res) => {
     res.status(200).json(oResult);
 })
 
+route.post("/v1/idnumberlist", (req, res) => {
+    // const oResult = idnumberHandler.idNumberGenerator(req.params.idnumber, "_");
+
+    //-- TODO
+
+    res.status(200).json(oResult);
+})
+
 module.exports = route;
