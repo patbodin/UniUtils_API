@@ -24,4 +24,10 @@ route.get("/v1/:idnumber/getlastdigit", (req, res) => {
     res.status(200).json(oResult);
 })
 
+route.get("/v1/:idnumber/idnumbergenerator", (req, res) => {
+    const oResult = idnumberHandler.idNumberGenerator(req.params.idnumber, "_");
+
+    res.status(200).json(oResult);
+})
+
 module.exports = route;

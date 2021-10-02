@@ -1,4 +1,4 @@
-class LastDigitModel {
+class CommonIdNumberModel {
     constructor() {
         this.result = "";
         this.idnumber = ""
@@ -6,12 +6,29 @@ class LastDigitModel {
     
 };
 
-class LastDigitComputedModel {
+class CommonResult {
     constructor() {
-        this.lastdigit = "";
         this.fullidnumber = "";
         this.formattedidnumber = "";
     }
 }
 
-module.exports = { LastDigitModel, LastDigitComputedModel };
+class LastDigitComputedModel extends CommonResult {
+    constructor() {
+        super();
+        this.lastdigit = "";
+        // this.fullidnumber = "";
+        // this.formattedidnumber = "";
+    }
+};
+
+class IdNumberGeneratorModel extends CommonResult {
+    constructor() {
+        super();
+        this.replacestring = "";
+        this.inclusion = "";
+        this.exclusion = "";
+    }
+};
+
+module.exports = { CommonIdNumberModel, CommonResult, LastDigitComputedModel, IdNumberGeneratorModel };
