@@ -15,6 +15,8 @@ RUN npm install --quiet --production
 # Bundle app source
 COPY . .
 
+RUN chmod -R 775 /usr/src/app
+
 #EXPOSE 8080
 
 CMD [ "node", "index.js" ]
