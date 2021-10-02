@@ -8,7 +8,7 @@ services:
     image: uniutil:1.0
     container_name: uniutil
     restart: always
-    env_file: .env
+    # env_file: .env
     # environment:
     #   - MONGO_USERNAME=$MONGO_USERNAME
     #   - MONGO_PASSWORD=$MONGO_PASSWORD
@@ -17,10 +17,10 @@ services:
     #   - MONGO_DB=$MONGO_DB
     ports:
       - "5099:5000"
-    networks:
-      - app-network
+    # networks:
+    #   - app-network
     command: node index.js
 
-networks:
-  app-network:
-    driver: host
+# networks:
+#   app-network:
+#     driver: bridge
