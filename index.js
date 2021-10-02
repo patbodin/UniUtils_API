@@ -1,6 +1,7 @@
 const express = require("express");
 const chalk = require("chalk");
 const dotenv = require("dotenv");
+const testRoute = require("./routes/test");
 
 const app = express();
 
@@ -13,8 +14,16 @@ app.get("/api/v1/testapi", () => {
 })
 
 app.get("/api/v2/testapi", (req, res) => {
-    res.send("Test API successful!!");
+    res.send("<h1>Test API successful!!</h1>");
 })
+
+app.get("/api/v3/testapi", (req, res) => {
+    res.redirect("http://www.google.com");
+})
+
+app.use(express.json());
+
+app.use("/api/tests", testRoute);
 
 app.listen(process.env.SERVER_PORT || port, () => {
     if(process.env.SERVER_PORT)
