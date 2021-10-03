@@ -3,6 +3,7 @@ const chalk = require("chalk");
 const dotenv = require("dotenv");
 const testRoute = require("./routes/test");
 const idnumberRoute = require("./routes/idnumber");
+const routelist = require("express-list-routes");
 
 const app = express();
 
@@ -20,6 +21,11 @@ app.get("/api/v2/testapi", (req, res) => {
 
 app.get("/api/v3/testapi", (req, res) => {
     res.redirect("http://www.google.com");
+})
+
+app.get("/api/v1/routelist", (req, res) => {
+    res.send("Please see console for route list");
+    routelist(app, {prefix: '/'});
 })
 
 app.use(express.json());
