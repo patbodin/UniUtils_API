@@ -4,12 +4,17 @@ const dotenv = require("dotenv");
 const testRoute = require("./routes/test");
 const idnumberRoute = require("./routes/idnumber");
 const routelist = require("express-list-routes");
+const axios = require("axios");
+const cors = require("cors");
 
 const app = express();
 
 dotenv.config();
 
 let port = 5000;
+
+app.use(express.json());
+app.use(cors());
 
 app.get("/api/v1/testapi", () => {
     console.log(chalk.blue("Test console successful!!"));
@@ -28,7 +33,45 @@ app.get("/api/v1/routelist", (req, res) => {
     routelist(app, {prefix: '/'});
 })
 
-app.use(express.json());
+app.get("/api/v1/testgenpass", async (req, res) => {
+    let iCount = req.query.c ? req.query.c : 10;
+    let iLength = req.query.l ? req.query.l : 12;
+
+    // await axios.get('https://makemeapassword.ligos.net/api/v1/alphanumeric/json', {
+    //     params: {
+    //         c: 10,
+    //         l: 12
+    //     }
+    // }).then((resp) => {
+    //     res.json(resp);
+    // }).catch((err) => {
+    //     res.json(err);
+    // });
+
+    // axios.get('https://makemeapassword.ligos.net/api/v1/alphanumeric/json?c=10&l=12'
+    // ).then((resp) => {
+    //     res.json(resp);
+    // }).catch((err) => {
+    //     res.json(err);
+    // });
+
+    try
+    {
+        const resp = await axios.get('https://makemeapassword.ligos.net/api/v1/alphanumeric/json', {
+            params: {
+                c: iCount,
+                l: iLength
+            }
+        });
+
+        res.json(resp.data);
+    }
+    catch(err) {
+        res.json(err);
+    }
+    
+})
+
 
 app.use("/api/tests", testRoute);
 app.use("/api/idnumbers", idnumberRoute);
