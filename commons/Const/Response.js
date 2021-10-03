@@ -8,7 +8,7 @@ const RespMsg = {
 
     F00001: "ID Number must be 12-digit numeric characters",
     F00002: "ID Number must be 12-digit numeric characters alongside replaceStr",
-    F00003: "A number of ID Numbers exceed process limitation",
+    F00003: "A number of ID Numbers invalid (must be 1-50)",
 }
 
 module.exports = {

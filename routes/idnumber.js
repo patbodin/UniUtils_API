@@ -32,9 +32,7 @@ route.get("/v1/idnumbergenerator/:idnumber", (req, res) => {
 })
 
 route.post("/v1/lastdigitlist", (req, res) => {
-    // const oResult = idnumberHandler.idNumberGenerator(req.params.idnumber, "_");
-
-    //-- TODO
+    const oResult = idnumberHandler.getLastDigitList(req.body.idnumberlist);
 
     res.status(200).json(oResult);
 })

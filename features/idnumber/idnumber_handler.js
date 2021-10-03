@@ -1,4 +1,9 @@
-const { CommonIdNumberModel, LastDigitComputedModel, IdNumberGeneratorModel } = require("../../models/idnumber/idnumber_model");
+const { CommonIdNumberModel, 
+    LastDigitComputedModel, 
+    IdNumberGeneratorModel,
+    CommonIdNumberListModel,
+    LastDigitListModel  
+} = require("../../models/idnumber/idnumber_model");
 const stringUtils = require("../../commons/StringUtils");
 const numberUtils = require("../../commons/NumberUtils");
 const respConst = require("../../commons/Const/Response");
@@ -139,40 +144,51 @@ function idNumberGenerator(idnumber, replaceStr) {
 }
 
 function getLastDigitList(idnumberlist) {
-    if(idnumberlist.length > 50) {
-
-    }
-
-    // let oResult = new CommonIdNumberModel();
+    let oResult = new CommonIdNumberListModel();
     // let oComputedNum = new LastDigitComputedModel();
 
-    // let lastDigit = '';
+    if(idnumberlist.length > 50 || idnumberlist.length <= 0) {
+        oResult.result = respConst.RespStatus.FAIL;
+        oResult.message = respConst.RespMsg.F00003;
+        oResult.totalnumber = idnumberlist.length;
+    } else {
+        let oLastDigitList = [];
 
-    // if(isNumber(idnumber, partDigitRegExp) === true) {
-        
-    //     lastDigit = findLastDigit(idnumber);
+        for(let idnum of idnumberlist) {
+            let item = new LastDigitListModel();
 
-    //     oResult.result = respConst.SUCCESS;
-    //     oResult.idnumber = idnumber;
+            if(isNumber(idnum, idnumberPattern.IDNumberPattern.partDigitRegExp) === true) {
+                let lastdigit = "";
+                
+                lastdigit = findLastDigit(idnum);
 
-    //     oComputedNum.lastdigit = lastDigit;
-    //     oComputedNum.fullidnumber = idnumber + lastDigit;
-    //     oComputedNum.formattedidnumber = formattedNumber(oComputedNum.fullidnumber);
+                item.idnumber = idnum;
+                item.fullidnumber = idnum + lastdigit;
+                item.formattedidnumber = formattedNumber(item.fullidnumber);
+                item.lastdigit = lastdigit;
+            }
+            else {
+                item.idnumber = idnum;
+            }
 
-    // }
-    // else {
-    //     oResult.result = respConst.FAIL;
-    //     oResult.idnumber = idnumber;
-    // }
+            oLastDigitList.push(item);
+        }
 
-    // let oRespDtm = datetimeUtils.getResponseDateTime();
-    // let spreadResult = { ...oResult, ...oComputedNum, ...oRespDtm };
+        oResult.result = respConst.RespStatus.SUCCESS;
+        oResult.message = respConst.RespMsg.C00000;
+        oResult.totalnumber = idnumberlist.length;
+        oResult.idnumberlist = oLastDigitList;
+    }
 
-    // return spreadResult;
+    let oRespDtm = datetimeUtils.getResponseDateTime();
+    let spreadResult = { ...oResult, ...oRespDtm };
+
+    return spreadResult;
 }
 
 module.exports = { 
     isValid, 
     getLastDigit, 
-    idNumberGenerator 
+    idNumberGenerator,
+    getLastDigitList 
 };
