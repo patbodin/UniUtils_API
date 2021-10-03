@@ -2,6 +2,7 @@ const { CommonIdNumberModel, LastDigitComputedModel, IdNumberGeneratorModel } = 
 const stringUtils = require("../../commons/StringUtils");
 const numberUtils = require("../../commons/NumberUtils");
 const respConst = require("../../commons/Const/Response");
+const datetimeUtils = require("../../commons/DateTimeUtils");
 
 const fullDigitRegExp = /^[0-9]{13}$/g;
 const partDigitRegExp = /^[0-9]{12}$/g;
@@ -45,7 +46,8 @@ function getLastDigit(idnumber) {
         oResult.idnumber = idnumber;
     }
 
-    let spreadResult = { ...oResult, ...oComputedNum };
+    let oRespDtm = datetimeUtils.getResponseDateTime();
+    let spreadResult = { ...oResult, ...oComputedNum, ...oRespDtm };
 
     return spreadResult;
 }
@@ -121,7 +123,8 @@ function idNumberGenerator(idnumber, replaceStr) {
         oResult.idnumber = idnumber;
     }
 
-    let spreadResult = { ...oResult, ...oComputedNum };
+    let oRespDtm = datetimeUtils.getResponseDateTime();
+    let spreadResult = { ...oResult, ...oComputedNum, ...oRespDtm };
 
     return spreadResult;
 }
