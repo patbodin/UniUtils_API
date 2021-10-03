@@ -187,12 +187,19 @@ function getLastDigitList(idnumberlist) {
     return spreadResult;
 }
 
-function getRandomIdNumber(count) {
+function getRandomIdNumber(count, exclude = "") {
     let oResult = new CommonIdNumberListModel();
     
+    exclude = exclude.length > 5 ? exclude.substr(0, 5) : exclude;
+    let arrExclude = exclude !== "" ? exclude.split('') : [];
+    
+    // console.log(`exclude: ${exclude}`);
+    // console.log(`exclude array: ${arrExclude}`);
+
     if(count > 50 || count <= 0) {
         oResult.result = respConst.RespStatus.FAIL;
         oResult.message = respConst.RespMsg.F00004;
+        oResult.exclusion = arrExclude;
     }
     else {
         let oRandNumberList = [];
@@ -203,7 +210,7 @@ function getRandomIdNumber(count) {
 
             do
             {
-                iRandNumber = generateRandNumber(12);
+                iRandNumber = generateRandNumber(12, arrExclude);
 
                 // console.log(`Gen rand number for ${i}`);
             } while(oRandNumberList.find(element => element.idnumber == iRandNumber) != undefined); // In case that it generates same number -> regenerate
@@ -219,6 +226,7 @@ function getRandomIdNumber(count) {
         oResult.message = respConst.RespMsg.C00000;
         oResult.totalnumber = oRandNumberList.length;
         oResult.idnumberlist = oRandNumberList;
+        oResult.exclusion = arrExclude;
     }
 
     let oRespDtm = datetimeUtils.getResponseDateTime();
@@ -227,13 +235,30 @@ function getRandomIdNumber(count) {
     return spreadResult;
 }
 
-function generateRandNumber(count) {
+function generateRandNumber(count, exclude = []) {
     let sNumber = "";
 
-    for(let i = 0; i < count; i++){
-        sNumber += numberUtils.getRandomInt(0, 10).toString();
-
+    if(exclude.length == 0) //-- No exclusion
+    {
+        for(let i = 0; i < count; i++){
+            sNumber += numberUtils.getRandomInt(0, 10).toString();
+    
+        }
     }
+    else { //-- When exclusion is defined
+        for(let i = 0; i < count; i++){
+            let randNum = "";
+
+            do
+            {
+                randNum = numberUtils.getRandomInt(0, 10).toString();
+            }
+            while(exclude.find(element => element == randNum));
+    
+            sNumber += randNum;
+        }
+    }
+    
 
     return sNumber;
 }

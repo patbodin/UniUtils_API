@@ -46,9 +46,8 @@ route.post("/v1/idnumberlist", (req, res) => {
 })
 
 route.get("/v1/randomidnumber", (req, res) => {
-    const oResult = idnumberHandler.getRandomIdNumber(req.query.count);
-
-    //-- TODO
+    const oResult = idnumberHandler.getRandomIdNumber(req.query.count, req.query.exclude);
+    // const oResult = idnumberHandler.getRandomIdNumber(req.query.count, "1234987");
 
     res.status(200).json(oResult);
 })

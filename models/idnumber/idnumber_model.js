@@ -27,8 +27,8 @@ class IdNumberGeneratorModel extends CommonResult {
     constructor() {
         super();
         this.replacestring = "";
-        this.inclusion = "";
-        this.exclusion = "";
+        // this.inclusion = "";
+        this.exclusion = [];
     }
 };
 
@@ -37,6 +37,7 @@ class CommonIdNumberListModel {
         this.result = "";
         this.message = "";
         this.totalnumber = 0;
+        this.exclusion = [];
         this.idnumberlist = [];
     }
 };
