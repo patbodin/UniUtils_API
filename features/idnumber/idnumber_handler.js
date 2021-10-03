@@ -1,6 +1,7 @@
 const { CommonIdNumberModel, LastDigitComputedModel, IdNumberGeneratorModel } = require("../../models/idnumber/idnumber_model");
 const stringUtils = require("../../commons/StringUtils");
 const numberUtils = require("../../commons/NumberUtils");
+const respConst = require("../../commons/Const/Response");
 
 const fullDigitRegExp = /^[0-9]{13}$/g;
 const partDigitRegExp = /^[0-9]{12}$/g;
@@ -31,7 +32,7 @@ function getLastDigit(idnumber) {
 
         // console.log(`modNum: ${modNum}, lastDigit: ${lastDigit}`);
 
-        oResult.result = "Success";
+        oResult.result = respConst.SUCCESS;
         oResult.idnumber = idnumber;
 
         oComputedNum.lastdigit = lastDigit;
@@ -40,7 +41,7 @@ function getLastDigit(idnumber) {
 
     }
     else {
-        oResult.result = "Fail";
+        oResult.result = respConst.FAIL;
         oResult.idnumber = idnumber;
     }
 
@@ -108,7 +109,7 @@ function idNumberGenerator(idnumber, replaceStr) {
 
         lastDigit = findLastDigit(strIdNumber);
 
-        oResult.result = "Success";
+        oResult.result = respConst.SUCCESS;
         oResult.idnumber = idnumber;
         oComputedNum.fullidnumber = strIdNumber + lastDigit;
         oComputedNum.formattedidnumber = formattedNumber(oComputedNum.fullidnumber);
@@ -116,7 +117,7 @@ function idNumberGenerator(idnumber, replaceStr) {
 
     }
     else {
-        oResult.result = "Fail";
+        oResult.result = respConst.FAIL;
         oResult.idnumber = idnumber;
     }
 
