@@ -3,22 +3,22 @@ const stringUtils = require("../../commons/StringUtils");
 const numberUtils = require("../../commons/NumberUtils");
 const respConst = require("../../commons/Const/Response");
 const datetimeUtils = require("../../commons/DateTimeUtils");
-
-const fullDigitRegExp = /^[0-9]{13}$/g;
-const partDigitRegExp = /^[0-9]{12}$/g;
-const chkDigit = /^.{12}$/g;
+const idnumberPattern = require("../../commons/Const/RegularExpression");
 
 function isValid(idnumber) {
     // console.log(idnumber.length);
 
     const chkLength = idnumber.trim().length === 13;
-    const chkRegex = isNumber(idnumber, fullDigitRegExp);
+    const chkNumeric = isNumber(idnumber, idnumberPattern.IDNumberPattern.fullDigitRegExp);
+    const lastDigit = findLastDigit(idnumber.substr(0, 12));
+    const chkLastDigit = idnumber[idnumber.length - 1] === lastDigit;
 
     // console.log(`Check Length: ${chkLength}`);
-    // console.log(`Check Regex: ${chkRegex}`);
+    // console.log(`Check Regex: ${chkNumeric}, Pattern: ${idnumberPattern.IDNumberPattern.fullDigitRegExp}`);
     // console.log(`----------------------------`);
+    // console.log(`Check LastDigit: ${chkLastDigit}, LastDigit: ${lastDigit}`);
 
-    return chkLength && chkRegex;
+    return chkLength && chkNumeric && chkLastDigit;
 }
 
 function getLastDigit(idnumber) {
@@ -27,13 +27,14 @@ function getLastDigit(idnumber) {
 
     let lastDigit = '';
 
-    if(isNumber(idnumber, partDigitRegExp) === true) {
+    if(isNumber(idnumber, idnumberPattern.IDNumberPattern.partDigitRegExp) === true) {
         
         lastDigit = findLastDigit(idnumber);
 
         // console.log(`modNum: ${modNum}, lastDigit: ${lastDigit}`);
 
-        oResult.result = respConst.SUCCESS;
+        oResult.result = respConst.RespStatus.SUCCESS;
+        oResult.message = respConst.RespMsg.C00000;
         oResult.idnumber = idnumber;
 
         oComputedNum.lastdigit = lastDigit;
@@ -42,7 +43,8 @@ function getLastDigit(idnumber) {
 
     }
     else {
-        oResult.result = respConst.FAIL;
+        oResult.result = respConst.RespStatus.FAIL;
+        oResult.message = respConst.RespMsg.F00001;
         oResult.idnumber = idnumber;
     }
 
@@ -60,13 +62,18 @@ function isNumber(idnumber, myregex) {
     return regexObj.test(idnumber);
 }
 
-function formattedNumber(idnumber) {
-    let strResult = "";
+function formattedNumber(idnumber, formattedIndex = [1, 6, 12, 15]) {
+    let strResult = idnumber;
 
-    strResult = stringUtils.insertStr(idnumber, 1, "-");
-    strResult = stringUtils.insertStr(strResult, 6, "-");
-    strResult = stringUtils.insertStr(strResult, 12, "-");
-    strResult = stringUtils.insertStr(strResult, 15, "-");
+    // strResult = stringUtils.insertStr(strResult, 1, "-");
+    // strResult = stringUtils.insertStr(strResult, 6, "-");
+    // strResult = stringUtils.insertStr(strResult, 12, "-");
+    // strResult = stringUtils.insertStr(strResult, 15, "-");
+
+    for(let index of formattedIndex) {
+        strResult = stringUtils.insertStr(strResult, index, "-");
+        // console.log(strResult);
+    }
 
     return strResult;
 }
@@ -96,7 +103,7 @@ function idNumberGenerator(idnumber, replaceStr) {
 
     let lastDigit = "";
 
-    if(isNumber(idnumber, chkDigit) === true) {
+    if(isNumber(idnumber, idnumberPattern.IDNumberPattern.chkDigitRegExp) === true) {
         let strIdNumber = "";
 
         for(let i = 0; i < idnumber.length; i++){
@@ -111,7 +118,8 @@ function idNumberGenerator(idnumber, replaceStr) {
 
         lastDigit = findLastDigit(strIdNumber);
 
-        oResult.result = respConst.SUCCESS;
+        oResult.result = respConst.RespStatus.SUCCESS;
+        oResult.message = respConst.RespMsg.C00000;
         oResult.idnumber = idnumber;
         oComputedNum.fullidnumber = strIdNumber + lastDigit;
         oComputedNum.formattedidnumber = formattedNumber(oComputedNum.fullidnumber);
@@ -119,7 +127,8 @@ function idNumberGenerator(idnumber, replaceStr) {
 
     }
     else {
-        oResult.result = respConst.FAIL;
+        oResult.result = respConst.RespStatus.FAIL;
+        oResult.message = respConst.RespMsg.F00002;
         oResult.idnumber = idnumber;
     }
 
@@ -129,4 +138,41 @@ function idNumberGenerator(idnumber, replaceStr) {
     return spreadResult;
 }
 
-module.exports = { isValid, getLastDigit, idNumberGenerator };
+function getLastDigitList(idnumberlist) {
+    if(idnumberlist.length > 50) {
+
+    }
+
+    // let oResult = new CommonIdNumberModel();
+    // let oComputedNum = new LastDigitComputedModel();
+
+    // let lastDigit = '';
+
+    // if(isNumber(idnumber, partDigitRegExp) === true) {
+        
+    //     lastDigit = findLastDigit(idnumber);
+
+    //     oResult.result = respConst.SUCCESS;
+    //     oResult.idnumber = idnumber;
+
+    //     oComputedNum.lastdigit = lastDigit;
+    //     oComputedNum.fullidnumber = idnumber + lastDigit;
+    //     oComputedNum.formattedidnumber = formattedNumber(oComputedNum.fullidnumber);
+
+    // }
+    // else {
+    //     oResult.result = respConst.FAIL;
+    //     oResult.idnumber = idnumber;
+    // }
+
+    // let oRespDtm = datetimeUtils.getResponseDateTime();
+    // let spreadResult = { ...oResult, ...oComputedNum, ...oRespDtm };
+
+    // return spreadResult;
+}
+
+module.exports = { 
+    isValid, 
+    getLastDigit, 
+    idNumberGenerator 
+};

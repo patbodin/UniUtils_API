@@ -1,6 +1,7 @@
 class CommonIdNumberModel {
     constructor() {
         this.result = "";
+        this.message = "";
         this.idnumber = ""
     }
     
@@ -34,6 +35,7 @@ class IdNumberGeneratorModel extends CommonResult {
 class CommonIdNumberListModel {
     constructor() {
         this.result = "";
+        this.message = "";
         this.totalnumber = 0;
         this.idnumberlist = [];
     }
