@@ -50,11 +50,20 @@ class LastDigitListModel {
     }
 }
 
+class RandomIdNumberListModel {
+    constructor() {
+        this.idnumber = "";
+        this.fullidnumber = "";
+        this.formattedidnumber = "";
+    }
+}
+
 module.exports = { 
     CommonIdNumberModel, 
     CommonResult, 
     LastDigitComputedModel, 
     IdNumberGeneratorModel,
     CommonIdNumberListModel,
-    LastDigitListModel
+    LastDigitListModel,
+    RandomIdNumberListModel
 };

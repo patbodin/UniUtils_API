@@ -45,4 +45,12 @@ route.post("/v1/idnumberlist", (req, res) => {
     res.status(200).json(oResult);
 })
 
+route.get("/v1/randomidnumber", (req, res) => {
+    const oResult = idnumberHandler.getRandomIdNumber(req.query.count);
+
+    //-- TODO
+
+    res.status(200).json(oResult);
+})
+
 module.exports = route;

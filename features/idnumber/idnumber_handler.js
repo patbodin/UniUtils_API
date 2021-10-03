@@ -2,7 +2,8 @@ const { CommonIdNumberModel,
     LastDigitComputedModel, 
     IdNumberGeneratorModel,
     CommonIdNumberListModel,
-    LastDigitListModel  
+    LastDigitListModel,
+    RandomIdNumberListModel
 } = require("../../models/idnumber/idnumber_model");
 const stringUtils = require("../../commons/StringUtils");
 const numberUtils = require("../../commons/NumberUtils");
@@ -186,9 +187,61 @@ function getLastDigitList(idnumberlist) {
     return spreadResult;
 }
 
+function getRandomIdNumber(count) {
+    let oResult = new CommonIdNumberListModel();
+    
+    if(count > 50 || count <= 0) {
+        oResult.result = respConst.RespStatus.FAIL;
+        oResult.message = respConst.RespMsg.F00004;
+    }
+    else {
+        let oRandNumberList = [];
+
+        for(let i = 0; i < count; i++) {
+            let item = new RandomIdNumberListModel();
+            let iRandNumber = "";
+
+            do
+            {
+                iRandNumber = generateRandNumber(12);
+
+                // console.log(`Gen rand number for ${i}`);
+            } while(oRandNumberList.find(element => element.idnumber == iRandNumber) != undefined); // In case that it generates same number -> regenerate
+
+            item.idnumber = iRandNumber + findLastDigit(iRandNumber);
+            item.fullidnumber = item.idnumber;
+            item.formattedidnumber = formattedNumber(item.idnumber);
+
+            oRandNumberList.push(item);
+        }
+
+        oResult.result = respConst.RespStatus.SUCCESS;
+        oResult.message = respConst.RespMsg.C00000;
+        oResult.totalnumber = oRandNumberList.length;
+        oResult.idnumberlist = oRandNumberList;
+    }
+
+    let oRespDtm = datetimeUtils.getResponseDateTime();
+    let spreadResult = { ...oResult, ...oRespDtm };
+
+    return spreadResult;
+}
+
+function generateRandNumber(count) {
+    let sNumber = "";
+
+    for(let i = 0; i < count; i++){
+        sNumber += numberUtils.getRandomInt(0, 10).toString();
+
+    }
+
+    return sNumber;
+}
+
 module.exports = { 
     isValid, 
     getLastDigit, 
     idNumberGenerator,
-    getLastDigitList 
+    getLastDigitList,
+    getRandomIdNumber 
 };
