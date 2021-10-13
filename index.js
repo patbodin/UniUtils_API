@@ -71,6 +71,17 @@ app.get("/api/v1/testgenpass", async (req, res) => {
 
 })
 
+app.get("/api/v1/testbe", async (req, res) => {
+    try {
+        const resp = await axios.get('http://localhost:3000/');
+
+        res.json(resp.data);
+    }
+    catch (err) {
+        res.json(err);
+    }
+});
+
 
 app.use("/api/tests", testRoute);
 app.use("/api/idnumbers", idnumberRoute);
