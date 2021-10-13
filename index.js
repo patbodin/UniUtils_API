@@ -3,6 +3,7 @@ const chalk = require("chalk");
 const dotenv = require("dotenv");
 const testRoute = require("./routes/test");
 const idnumberRoute = require("./routes/idnumber");
+const loginRoute = require("./routes/login");
 const routelist = require("express-list-routes");
 const axios = require("axios");
 const cors = require("cors");
@@ -85,6 +86,7 @@ app.get("/api/v1/testbe", async (req, res) => {
 
 app.use("/api/tests", testRoute);
 app.use("/api/idnumbers", idnumberRoute);
+app.use("/api/logins", loginRoute);
 
 app.listen(process.env.SERVER_PORT || port, () => {
     if (process.env.SERVER_PORT)
