@@ -1,5 +1,5 @@
-const { CommonIdNumberModel, 
-    LastDigitComputedModel, 
+const { CommonIdNumberModel,
+    LastDigitComputedModel,
     IdNumberGeneratorModel,
     CommonIdNumberListModel,
     LastDigitListModel,
@@ -33,8 +33,8 @@ function getLastDigit(idnumber) {
 
     let lastDigit = '';
 
-    if(isNumber(idnumber, idnumberPattern.IDNumberPattern.partDigitRegExp) === true) {
-        
+    if (isNumber(idnumber, idnumberPattern.IDNumberPattern.partDigitRegExp) === true) {
+
         lastDigit = findLastDigit(idnumber);
 
         // console.log(`modNum: ${modNum}, lastDigit: ${lastDigit}`);
@@ -76,7 +76,7 @@ function formattedNumber(idnumber, formattedIndex = [1, 6, 12, 15]) {
     // strResult = stringUtils.insertStr(strResult, 12, "-");
     // strResult = stringUtils.insertStr(strResult, 15, "-");
 
-    for(let index of formattedIndex) {
+    for (let index of formattedIndex) {
         strResult = stringUtils.insertStr(strResult, index, "-");
         // console.log(strResult);
     }
@@ -88,8 +88,8 @@ function findLastDigit(idnumber) {
     let sumNum = 0;
     let lastDigit = 0;
     let strLastDigit = "";
-    
-    for(let i = 0; i < idnumber.length; i++){
+
+    for (let i = 0; i < idnumber.length; i++) {
         sumNum += Number(idnumber[i]) * (idnumber.length - i + 1);
 
         // console.log(`number: ${Number(idnumber[i])}, multiply: ${idnumber.length - i + 1}, sumNum: ${sumNum}`);
@@ -109,11 +109,11 @@ function idNumberGenerator(idnumber, replaceStr) {
 
     let lastDigit = "";
 
-    if(isNumber(idnumber, idnumberPattern.IDNumberPattern.chkDigitRegExp) === true) {
+    if (isNumber(idnumber, idnumberPattern.IDNumberPattern.chkDigitRegExp) === true) {
         let strIdNumber = "";
 
-        for(let i = 0; i < idnumber.length; i++){
-            if(idnumber[i] == replaceStr) {
+        for (let i = 0; i < idnumber.length; i++) {
+            if (idnumber[i] == replaceStr) {
                 strIdNumber += numberUtils.getRandomInt(0, 10).toString();
 
                 // console.log(`Output: ${strIdNumber}`);
@@ -148,19 +148,19 @@ function getLastDigitList(idnumberlist) {
     let oResult = new CommonIdNumberListModel();
     // let oComputedNum = new LastDigitComputedModel();
 
-    if(idnumberlist.length > 50 || idnumberlist.length <= 0) {
+    if (idnumberlist.length > 50 || idnumberlist.length <= 0) {
         oResult.result = respConst.RespStatus.FAIL;
         oResult.message = respConst.RespMsg.F00003;
         oResult.totalnumber = idnumberlist.length;
     } else {
         let oLastDigitList = [];
 
-        for(let idnum of idnumberlist) {
+        for (let idnum of idnumberlist) {
             let item = new LastDigitListModel();
 
-            if(isNumber(idnum, idnumberPattern.IDNumberPattern.partDigitRegExp) === true) {
+            if (isNumber(idnum, idnumberPattern.IDNumberPattern.partDigitRegExp) === true) {
                 let lastdigit = "";
-                
+
                 lastdigit = findLastDigit(idnum);
 
                 item.idnumber = idnum;
@@ -189,14 +189,14 @@ function getLastDigitList(idnumberlist) {
 
 function getRandomIdNumber(count, exclude = "") {
     let oResult = new CommonIdNumberListModel();
-    
+
     exclude = exclude.length > 5 ? exclude.substr(0, 5) : exclude;
     let arrExclude = exclude !== "" ? exclude.split('') : [];
-    
+
     // console.log(`exclude: ${exclude}`);
     // console.log(`exclude array: ${arrExclude}`);
 
-    if(count > 50 || count <= 0) {
+    if (count > 50 || count <= 0) {
         oResult.result = respConst.RespStatus.FAIL;
         oResult.message = respConst.RespMsg.F00004;
         oResult.exclusion = arrExclude;
@@ -204,16 +204,15 @@ function getRandomIdNumber(count, exclude = "") {
     else {
         let oRandNumberList = [];
 
-        for(let i = 0; i < count; i++) {
+        for (let i = 0; i < count; i++) {
             let item = new RandomIdNumberListModel();
             let iRandNumber = "";
 
-            do
-            {
+            do {
                 iRandNumber = generateRandNumber(12, arrExclude);
 
                 // console.log(`Gen rand number for ${i}`);
-            } while(oRandNumberList.find(element => element.idnumber == iRandNumber) != undefined); // In case that it generates same number -> regenerate
+            } while (oRandNumberList.find(element => element.idnumber == iRandNumber) != undefined); // In case that it generates same number -> regenerate
 
             item.idnumber = iRandNumber + findLastDigit(iRandNumber);
             item.fullidnumber = item.idnumber;
@@ -238,35 +237,34 @@ function getRandomIdNumber(count, exclude = "") {
 function generateRandNumber(count, exclude = []) {
     let sNumber = "";
 
-    if(exclude.length == 0) //-- No exclusion
+    if (exclude.length == 0) //-- No exclusion
     {
-        for(let i = 0; i < count; i++){
+        for (let i = 0; i < count; i++) {
             sNumber += numberUtils.getRandomInt(0, 10).toString();
-    
+
         }
     }
     else { //-- When exclusion is defined
-        for(let i = 0; i < count; i++){
+        for (let i = 0; i < count; i++) {
             let randNum = "";
 
-            do
-            {
+            do {
                 randNum = numberUtils.getRandomInt(0, 10).toString();
             }
-            while(exclude.find(element => element == randNum));
-    
+            while (exclude.find(element => element == randNum));
+
             sNumber += randNum;
         }
     }
-    
+
 
     return sNumber;
 }
 
-module.exports = { 
-    isValid, 
-    getLastDigit, 
+module.exports = {
+    isValid,
+    getLastDigit,
     idNumberGenerator,
     getLastDigitList,
-    getRandomIdNumber 
+    getRandomIdNumber
 };

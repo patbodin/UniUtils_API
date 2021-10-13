@@ -4,7 +4,7 @@ class CommonIdNumberModel {
         this.message = "";
         this.idnumber = ""
     }
-    
+
 };
 
 class CommonResult {
@@ -59,10 +59,10 @@ class RandomIdNumberListModel {
     }
 }
 
-module.exports = { 
-    CommonIdNumberModel, 
-    CommonResult, 
-    LastDigitComputedModel, 
+module.exports = {
+    CommonIdNumberModel,
+    CommonResult,
+    LastDigitComputedModel,
     IdNumberGeneratorModel,
     CommonIdNumberListModel,
     LastDigitListModel,

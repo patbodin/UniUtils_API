@@ -30,7 +30,7 @@ app.get("/api/v3/testapi", (req, res) => {
 
 app.get("/api/v1/routelist", (req, res) => {
     res.send("Please see console for route list");
-    routelist(app, {prefix: '/'});
+    routelist(app, { prefix: '/' });
 })
 
 app.get("/api/v1/testgenpass", async (req, res) => {
@@ -55,8 +55,7 @@ app.get("/api/v1/testgenpass", async (req, res) => {
     //     res.json(err);
     // });
 
-    try
-    {
+    try {
         const resp = await axios.get('https://makemeapassword.ligos.net/api/v1/alphanumeric/json', {
             params: {
                 c: iCount,
@@ -66,10 +65,10 @@ app.get("/api/v1/testgenpass", async (req, res) => {
 
         res.json(resp.data);
     }
-    catch(err) {
+    catch (err) {
         res.json(err);
     }
-    
+
 })
 
 
@@ -77,7 +76,7 @@ app.use("/api/tests", testRoute);
 app.use("/api/idnumbers", idnumberRoute);
 
 app.listen(process.env.SERVER_PORT || port, () => {
-    if(process.env.SERVER_PORT)
+    if (process.env.SERVER_PORT)
         console.log(chalk.bold.green(`Backend server started successfully!!! on PORT ${process.env.SERVER_PORT}`));
     else
         console.log(chalk.bold.green(`Backend server started successfully!!! on PORT ${port}`));
