@@ -60,6 +60,20 @@ route.get("/v1/getlastdigit/:idnumber", (req, res) => {
     res.status(200).json(oResult);
 })
 
+/**
+ * @swagger
+ * /api/users/v1/idnumbergenerator/{idnumber}:
+ *   get:
+ *     summary: Fill up blanks given, inluding the last digit 
+ *     description: Randomly generate numbers, replace them with the underscores, then calculate the last digit
+ *     parameters:
+ *       - in: path
+ *         name: idnumber
+ *         required: true
+ *         description: Numeric ID of the user to be processed.
+ *         schema:
+ *           type: integer
+ */
 route.get("/v1/idnumbergenerator/:idnumber", (req, res) => {
     const oResult = idnumberHandler.idNumberGenerator(req.params.idnumber, "_");
 

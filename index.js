@@ -24,10 +24,10 @@ app.use(helmet());
 const swaggerDefinition = {
     openapi: '3.0.0',
     info: {
-        title: 'Express API for JSONPlaceholder',
+        title: 'Express API for UniUtils',
         version: '1.0.0',
         description:
-            'This is a REST API application made with Express. It retrieves data from JSONPlaceholder.',
+            'This is a REST API application made with Express.',
         license: {
             name: 'Licensed Under MIT',
             url: 'https://spdx.org/licenses/MIT.html',
