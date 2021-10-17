@@ -3,6 +3,13 @@ const respConst = require("../commons/Const/Response");
 
 const route = require("express").Router();
 
+/**
+ * @swagger
+ * /api/users/v1/isvalid:
+ *   get:
+ *     summary: Simply get success response from the route 
+ *     description: Simply return response without processing
+ */
 route.get("/v1/isvalid", (req, res) => {
     res.status(200).json({
         result: respConst.SUCCESS,
@@ -10,6 +17,20 @@ route.get("/v1/isvalid", (req, res) => {
     })
 })
 
+/**
+ * @swagger
+ * /api/users/v1/isvalid/{idnumber}:
+ *   get:
+ *     summary: Check if the idnumber provided is valid 
+ *     description: The idnumber better be aligned with the formala, hence valid
+ *     parameters:
+ *       - in: path
+ *         name: idnumber
+ *         required: true
+ *         description: Numeric ID of the user to be processed.
+ *         schema:
+ *           type: integer
+ */
 route.get("/v1/isvalid/:idnumber", (req, res) => {
     const bResult = idnumberHandler.isValid(req.params.idnumber);
 
@@ -19,6 +40,20 @@ route.get("/v1/isvalid/:idnumber", (req, res) => {
     })
 })
 
+/**
+ * @swagger
+ * /api/users/v1/getlastdigit/{idnumber}:
+ *   get:
+ *     summary: Find the last digit of the input idnumber 
+ *     description: The 12 given digits will be calculated as a result of the last digit
+ *     parameters:
+ *       - in: path
+ *         name: idnumber
+ *         required: true
+ *         description: Numeric ID of the user to be processed.
+ *         schema:
+ *           type: integer
+ */
 route.get("/v1/getlastdigit/:idnumber", (req, res) => {
     const oResult = idnumberHandler.getLastDigit(req.params.idnumber);
 
