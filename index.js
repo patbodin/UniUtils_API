@@ -7,6 +7,7 @@ const loginRoute = require("./routes/login");
 const routelist = require("express-list-routes");
 const axios = require("axios");
 const cors = require("cors");
+const helmet = require("helmet");
 
 const app = express();
 
@@ -16,6 +17,7 @@ let port = 5000;
 
 app.use(express.json());
 app.use(cors());
+app.use(helmet());
 
 app.get("/api/v1/testapi", () => {
     console.log(chalk.blue("Test console successful!!"));
@@ -90,7 +92,7 @@ app.use("/api/logins", loginRoute);
 
 app.listen(process.env.SERVER_PORT || port, () => {
     if (process.env.SERVER_PORT)
-        console.log(chalk.bold.green(`Backend server started successfully!!! on PORT ${process.env.SERVER_PORT}`));
+        console.log(chalk.green(`Backend server started successfully!!! on PORT ${chalk.bold(process.env.SERVER_PORT)}`));
     else
-        console.log(chalk.bold.green(`Backend server started successfully!!! on PORT ${port}`));
+        console.log(chalk.green(`Backend server started successfully!!! on PORT ${chalk.bold(port)}`));
 })
