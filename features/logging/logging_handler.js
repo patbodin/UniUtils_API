@@ -21,6 +21,7 @@ module.exports = createLogger({
            maxSize: '10m',
            frequency: '30m',
            level: 'info',
+           utc: true,
            format:format.combine(
                 format.timestamp({format: 'MMM-DD-YYYY HH:mm:ss'}),
                 format.align(),
