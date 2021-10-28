@@ -1,5 +1,6 @@
 const route = require("express").Router();
 const loginHandler = require("../features/login/login_handler")
+const logger = require("../features/logging/logging_handler");
 
 /**
  * @swagger
@@ -24,9 +25,14 @@ const loginHandler = require("../features/login/login_handler")
  *                 example: admin
  */
 route.post('/v1/validatelogin', async (req, res) => {
+    logger.info("+++ Login Validation Start +++");
+    logger.info("Username: " + req.body.username);
     // const oResult = "" + req.body.username + req.body.password;
     const oResult = await loginHandler.validateLogin(req.body.username, req.body.password);
     
+    logger.info("Result: " + oResult.data.result);
+    logger.info("Process datetime: " + oResult.data.datetime);
+    logger.info("+++ Login Validation End +++");
     // console.log(oResult);
     res.status(200).json(oResult.data);
 });
