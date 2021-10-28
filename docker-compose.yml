@@ -20,6 +20,8 @@ services:
     # networks:
     #   - app-network
     command: node index.js
+    volumes:
+      - /app/nodejs.log/uniutil_api:/usr/src/app/logs
 
 # networks:
 #   app-network:
