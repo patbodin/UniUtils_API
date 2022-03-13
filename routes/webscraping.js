@@ -3,7 +3,7 @@ const respConst = require("../commons/Const/Response");
 
 const route = require("express").Router();
 
-route.get("/v1/simple/:number", (req, res) =>  {
+route.get(["/v1/simple", "/v1/simple*", "/v1/simple/:number", "/v1/thatsimple(s|ss)/:number"], (req, res) =>  {
     let mynum = 5;
     if (webHandler.isValid(req.params.number)) {
         mynum = req.params.number;
