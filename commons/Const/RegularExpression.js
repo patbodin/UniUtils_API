@@ -4,6 +4,11 @@ class IDNumberPattern {
     static chkDigitRegExp = /^.{12}$/g;
 }
 
+class WebScrapingPattern {
+    static numberRegExp = /^[0-9]{1,2}$/g;
+}
+
 module.exports = {
-    IDNumberPattern
+    IDNumberPattern,
+    WebScrapingPattern
 }
