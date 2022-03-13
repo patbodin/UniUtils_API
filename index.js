@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const testRoute = require("./routes/test");
 const idnumberRoute = require("./routes/idnumber");
 const loginRoute = require("./routes/login");
+const webscrapingRoute = require("./routes/webscraping");
 const routelist = require("express-list-routes");
 const axios = require("axios");
 const cors = require("cors");
@@ -129,6 +130,7 @@ app.get("/api/v1/testbe", async (req, res) => {
 app.use("/api/tests", testRoute);
 app.use("/api/idnumbers", idnumberRoute);
 app.use("/api/logins", loginRoute);
+app.use("/api/webs", webscrapingRoute);
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
